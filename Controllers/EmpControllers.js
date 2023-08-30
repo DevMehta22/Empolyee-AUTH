@@ -5,11 +5,11 @@ const genToken = (_id) => {
   return jwt.sign({ _id }, process.env.API_SECRET, { expiresIn: "2d" });
 };
 
-const loginEmp = async (req, res) => {
-  const { Emp_Email, Emp_password } = req.body;
+const signupEmp = async (req, res) => {
+  const { Emp_Email, Emp_password } = req.body
+  
   try {
-    const emp = await Employee.login(Emp_Email, Emp_password);
-
+    const emp = await Employee.signup(Emp_Email, Emp_password);
     const token = genToken(emp._id);
     res.status(200).json({ Emp_Email, token });
   } catch (err) {
@@ -17,10 +17,11 @@ const loginEmp = async (req, res) => {
   }
 };
 
-const signupEmp = async (req, res) => {
+const loginEmp = async (req, res) => {
   const { Emp_Email, Emp_password } = req.body;
+
   try {
-    const emp = await Employee.signup(Emp_Email, Emp_password);
+    const emp = await Employee.login(Emp_Email, Emp_password);
 
     const token = genToken(emp._id);
     res.status(200).json({ Emp_Email, token });

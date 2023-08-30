@@ -20,7 +20,9 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.statics.signup = async(Emp_Email, Emp_password)=> {
+const testModel = mongoose.model("employee", userSchema);
+
+userSchema.statics.signup = async function(Emp_Email, Emp_password) {
   if (!Emp_Email || !Emp_password) {
     throw Error("All fields must be filled");
   }
@@ -31,8 +33,8 @@ userSchema.statics.signup = async(Emp_Email, Emp_password)=> {
     throw Error("password not strong enough");
   }
 
-  const checkEmail = await this.findOne({ Emp_Email });
-
+  const checkEmail = await this.findOne({Emp_Email});
+  
   if (checkEmail) {
     throw Error("Email already exists");
   }
@@ -45,7 +47,7 @@ userSchema.statics.signup = async(Emp_Email, Emp_password)=> {
   return emp;
 };
 
-userSchema.statics.login = async(Emp_Email, Emp_password)=> {
+userSchema.statics.login = async function(Emp_Email, Emp_password) {
   if (!Emp_Email || !Emp_password) {
     throw Error("All fields must be filled");
   }
@@ -65,4 +67,4 @@ userSchema.statics.login = async(Emp_Email, Emp_password)=> {
   return emp;
 };
 
-module.exports = mongoose.model("employee", userSchema);
+module.exports = mongoose.model("Employee", userSchema);
